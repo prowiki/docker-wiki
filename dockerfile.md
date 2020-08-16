@@ -8,7 +8,7 @@
 
   - Note: each time you use `RUN`, you add a new overlay to the basic image. This will make image too large and make the build slower. So, you should always see the following in a Dockerfile:
   
-  ```
+  ```dockerfile
   FROM debian:stretch
 
   RUN buildDeps='gcc libc6-dev make wget' \
