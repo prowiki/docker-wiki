@@ -59,3 +59,9 @@ Successfully tagged nginx:v3
   - And this is the basic for `ADD` and `COPY`. So, you will not be able to run something like `COPY ../package.json /app` or `COPY /opt/xxxx /app`.
 3. Step 1: get the basic image: `4bb46517cac3`.
 4. Step 2: run a container overlay `095379bd399d` on the basic image, execute the command, and commit the changes as a new overlay `5a17fa4c3cb9`. After that, we don't need a container overlay, so delete it after build.
+
+### Tips for Dockerfile
+
+1. Place the `Dockerfile` in the root directory of the project, and use `.dockerignore` to exclude files that you don't want to pass to the Docker engine.
+2. Use `-f ./xxx/Dockerfile.config` to specify the `Dockerfile` you want to use during build. `./Dockerfile` is just the default.
+3. You can build image from git repositories or tarballs directly.
