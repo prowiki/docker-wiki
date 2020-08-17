@@ -110,6 +110,13 @@
 
 ### Multi-stage builds
 
+If we want to use a single `Dockerfile`, we will have the following downsides.
+
+- introduce too many overlays because of compiling, testing, packing, etc.
+- cannot protect source code.
+
+Then, we might want to use two `Dockerfile`s, one for compiling/testing and one for deployment. It works, but not very convenient.
+So, the ultimate solution is `multi-stage builds`, building multiple images use a single `Dockerfile`: https://vuepress.mirror.docker-practice.com/image/multistage-builds/
 
 
 ## Docker build
