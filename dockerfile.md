@@ -51,6 +51,66 @@
 
 4. ENTRYPOINT
 
+  - It has same usage as `CMD`, supporting shell form and exe form.
+  - You can also replace the default entrypoint by `--entrypoint`.
+  - You can specify **additional** arguments to the entrypoint. e.g. `ENTRYPOINT [ "curl", "-s", "http://ip.cn" ]`, you can use `docker run <image> -i` to get only the headers. Otherwise, if you are using `CMD`, you must use `docker run <image> curl -s "http://ip.cn" -i` to do the same thing.
+  - Another usage is to configure the image according to the arguments we use. Take redis image as example, it will run `docker-entrypoint.sh redis-server` by default. If we run with specific arguments, it will run `docker-entrypoint.sh <user's-arguments>`.
+  
+  ```dockerfile
+  FROM alpine:3.4
+  ...
+  RUN addgroup -S redis && adduser -S -G redis redis
+  ...
+  ENTRYPOINT ["docker-entrypoint.sh"]
+
+  EXPOSE 6379
+  CMD [ "redis-server" ]
+  ```
+
+5. ENV
+
+  - `ENV <key> <value>` or `ENV <key1>=<value1> <key2>=<value2>...`.
+  - Support `ADD`、`COPY`, `ENV`, `EXPOSE`, `FROM`, `LABEL`, `USER`, `WORKDIR`, `VOLUME`, `ONBUILD`, `RUN`.
+  - We can also specify the env at running the container, e.g. `docker run -e REDIS_NAMESPACE='staging'`.
+
+6. ARG
+
+  - `ARG <key>=<value>`
+  - It's used at `docker build` and will **not** be seen during runtime.
+  - We can use `docker build --build-arg <key>=<value>` to overwrite it.
+ 
+7. VOLUME
+ 
+  - `VOLUME <path>` or `VOLUME ["<path1>", "path2", ...]`.
+  - It's the default (**anonymous**) volume, in case we forget to mount a volume at runtime.
+  - e.g. we can overwrite it using `-v mydata:/data` for `VOLUME /data`. 
+
+8. WORKDIR
+
+  - `WORKDIR <path>`.
+  - We can use it to set current working directory for the following commnads in `Dockerfile` during build. And there's no need to create non-existing directories.
+
+9. USER
+
+  - `USER <user>[:<group>]`.
+  - Swith user for the following commands. But we need to create the user before switching.
+
+10. HEALTHCHECK
+
+  - Help Docker cli to understand container's health status: https://vuepress.mirror.docker-practice.com/image/dockerfile/healthcheck.html
+
+11. ONBUILD
+
+  - Execute some commands when this image serves as the basic image during another image build: https://vuepress.mirror.docker-practice.com/image/dockerfile/onbuild.html
+
+
+12. EXPOSE
+
+  - Just a declaration: https://vuepress.mirror.docker-practice.com/image/dockerfile/expose.html
+
+### Multi-stage builds
+
+
 
 ## Docker build
 
