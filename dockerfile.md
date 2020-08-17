@@ -29,6 +29,29 @@
   
   - Pay attention to the last few lines: we clear the cache and remove build tools, in order to make the image smaller.
 
+### Dockerfile commands
+
+1. COPY
+
+  - examples: `COPY package.json /usr/src/app/`, `COPY hom* /mydir/`, `COPY package.json mydir/`(relative path to `WORKDIR`).
+  - No need to create directories for non-existing paths.
+  - Support `--chown=<user>:<group>` to change user/group.
+
+2. ADD
+
+  - It has similar usage to `COPY`, But it can download and auto unzip the file to the target directory.
+  - So, `COPY` is recommended for copying files.
+
+3. CMD
+ 
+  - `CMD` specifies the default command of the container, e.g. `ubuntu`'s is `/bin/bash`. And we can overwrite it at start, e.g. `docker run -it ubuntu cat /etc/os-release`.
+  - shell form: `CMD <command>`. e.g. `CMD echo $HOME`, will be translated to `CMD [ "sh", "-c", "echo $HOME" ]`.
+  - exec form(recommended): `CMD [ "<exe-file>", "arg1", "arg2" ]` e.g. `CMD [ "sh", "-c", "echo $HOME" ]`.
+  - Note: container is a **process**, so `CMD service nginx start` will make the container exit immediately because it's translated to `CMD [ "sh", "-c", "service nginx start"]`.
+
+4. ENTRYPOINT
+
+
 ## Docker build
 
 We will use the following `Dockerfile` as example.
